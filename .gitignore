@@ -1,0 +1,7 @@
+# APKs no van al repo — se distribuyen por GitHub Releases
+*.apk
+
+# Firebase / Node
+.firebase/
+node_modules/
+*.log
