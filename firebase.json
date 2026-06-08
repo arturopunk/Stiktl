@@ -11,12 +11,12 @@
     "redirects": [
       {
         "source": "/download",
-        "destination": "https://github.com/arturopunk/Stiktl/releases/download/v1.0/Stiktl.apk",
+        "destination": "https://raw.githubusercontent.com/arturopunk/Stiktl/main/release/Stiktl.apk",
         "type": 302
       },
       {
         "source": "/Stiktl.apk",
-        "destination": "https://github.com/arturopunk/Stiktl/releases/download/v1.0/Stiktl.apk",
+        "destination": "https://raw.githubusercontent.com/arturopunk/Stiktl/main/release/Stiktl.apk",
         "type": 302
       }
     ],
