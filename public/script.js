@@ -1,143 +1,170 @@
 /* =================================================================
-   STIKTL — script.js (ligero)
-   Blobs aurora cyan + naranja, reveal escalonado, sombra de nav y año.
+   STIKTL — script.js
+   Blobs aurora, reveal, nav scroll, descargador de video.
    ================================================================= */
 
-/* Blobs flotantes del fondo (cyan + naranja, la mezcla de marca) */
+/* ── Blobs flotantes ── */
 function spawnBlobs() {
   const host = document.getElementById("blobs");
   if (!host) return;
-
   const colors = [
-    "rgba(34, 211, 238, 0.50)",   // cyan
-    "rgba(255, 122, 24, 0.42)",   // naranja
-    "rgba(139, 92, 246, 0.38)"    // lila (acento)
+    "rgba(34, 211, 238, 0.50)",
+    "rgba(255, 122, 24, 0.42)",
+    "rgba(139, 92, 246, 0.38)"
   ];
-  const COUNT = 3;                 // pocos = fondo fluido
-
-  for (let i = 0; i < COUNT; i++) {
-    const blob = document.createElement("span");
-    blob.className = "blob";
+  for (let i = 0; i < 3; i++) {
+    const b = document.createElement("span");
+    b.className = "blob";
     const size = 240 + Math.random() * 280;
-    blob.style.width = blob.style.height = `${size}px`;
-    blob.style.left = `${Math.random() * 100}%`;
-    blob.style.top = `${Math.random() * 100}%`;
-    blob.style.background = colors[i % colors.length];
-    blob.style.setProperty("--dx", `${(Math.random() - 0.5) * 150}px`);
-    blob.style.setProperty("--dy", `${(Math.random() - 0.5) * 150}px`);
-    blob.style.setProperty("--sc", `${1.05 + Math.random() * 0.35}`);
-    blob.style.setProperty("--dur", `${20 + Math.random() * 12}s`);
-    blob.style.animationDelay = `${-Math.random() * 10}s`;
-    host.appendChild(blob);
+    b.style.width = b.style.height = `${size}px`;
+    b.style.left  = `${Math.random() * 100}%`;
+    b.style.top   = `${Math.random() * 100}%`;
+    b.style.background = colors[i % colors.length];
+    b.style.setProperty("--dx",  `${(Math.random() - 0.5) * 150}px`);
+    b.style.setProperty("--dy",  `${(Math.random() - 0.5) * 150}px`);
+    b.style.setProperty("--sc",  `${1.05 + Math.random() * 0.35}`);
+    b.style.setProperty("--dur", `${20 + Math.random() * 12}s`);
+    b.style.animationDelay = `${-Math.random() * 10}s`;
+    host.appendChild(b);
   }
 }
 
-/* Reveal escalonado: solo aplica el retraso de cada elemento */
+/* ── Reveal escalonado ── */
 function setupReveal() {
-  document.querySelectorAll(".reveal").forEach((el) => {
-    const delay = parseInt(el.dataset.delay || "0", 10);
-    if (delay) el.style.setProperty("--reveal-delay", `${delay}ms`);
+  document.querySelectorAll(".reveal").forEach(el => {
+    const d = parseInt(el.dataset.delay || "0", 10);
+    if (d) el.style.setProperty("--reveal-delay", `${d}ms`);
   });
 }
 
-/* Sombra/elevación del nav al hacer scroll (passive = no bloquea) */
+/* ── Sombra del nav al hacer scroll ── */
 function setupHeaderScroll() {
   const nav = document.querySelector(".nav");
   if (!nav) return;
-  const onScroll = () => {
+  const fn = () => {
     nav.style.boxShadow = window.scrollY > 16
       ? "0 16px 40px -20px rgba(0,0,0,.75), inset 0 1px 0 rgba(204,208,224,.22)"
       : "";
   };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  window.addEventListener("scroll", fn, { passive: true });
+  fn();
 }
 
-/* ===================== DESCARGADOR ===================== */
-async function stiktlDownload() {
-  const input  = document.getElementById("dlUrl");
-  const btn    = document.getElementById("dlBtn");
-  const result = document.getElementById("dlResult");
-  const url    = input.value.trim();
+/* ── Descargador de video ── */
+let _dlUrl = null, _dlFile = "video.mp4";
 
-  if (!url || !url.startsWith("http")) {
-    setStatus("⚠️ Pega un link válido primero.", "warn"); return;
-  }
+async function stiktlDownload() {
+  const url  = (document.getElementById("dlUrl").value || "").trim();
+  const btn  = document.getElementById("dlBtn");
+  const res2 = document.getElementById("dlResult");
+
+  if (!url.startsWith("http")) { dlStatus("⚠️ Pega un link válido primero.", "warn"); return; }
 
   btn.disabled = true;
-  setStatus("⏳ Obteniendo video…", "info");
-  result.style.display = "none";
+  res2.style.display = "none";
+  dlStatus("⏳ Obteniendo video…", "info");
+  _dlUrl = null;
 
   try {
-    // cobalt.tools — API pública, gratis, sin backend propio.
-    // Soporta TikTok, Instagram, YouTube, Twitter/X, Reddit y más.
-    const res = await fetch("https://api.cobalt.tools/", {
+    const r = await fetch("https://api.cobalt.tools/", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        url,
-        videoQuality: "720",
-        filenameStyle: "pretty",
-      }),
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ url, videoQuality: "720", filenameStyle: "pretty" }),
     });
+    if (!r.ok) throw new Error("El servidor no respondió bien (" + r.status + ")");
+    const d = await r.json();
 
-    if (!res.ok) throw new Error(`Error del servidor: ${res.status}`);
-    const data = await res.json();
+    if (d.status === "error") throw new Error(d.error?.code || "No se pudo obtener el video");
 
-    // cobalt devuelve status "redirect" o "tunnel" con la URL directa,
-    // o "picker" con múltiples opciones (carruseles de Instagram, etc.)
-    let videoUrl = null, title = "video";
-
-    if (data.status === "redirect" || data.status === "tunnel") {
-      videoUrl = data.url;
-      title = data.filename || "stiktl-video";
-    } else if (data.status === "picker" && data.picker?.length) {
-      // Toma el primer elemento de video del carrusel
-      const vid = data.picker.find(p => p.type === "video") || data.picker[0];
-      videoUrl = vid.url;
-      title = data.filename || "stiktl-video";
-    } else if (data.status === "error") {
-      throw new Error(data.error?.code || "No se pudo obtener el video");
+    if (d.status === "redirect" || d.status === "tunnel") {
+      _dlUrl  = d.url;
+      _dlFile = d.filename || "stiktl-video.mp4";
+    } else if (d.status === "picker" && d.picker?.length) {
+      const v = d.picker.find(p => p.type === "video") || d.picker[0];
+      _dlUrl  = v.url;
+      _dlFile = d.filename || "stiktl-video.mp4";
     } else {
       throw new Error("Respuesta inesperada del servidor");
     }
 
-    // Muestra resultado
-    document.getElementById("dlTitle").textContent = title.replace(/\.[^.]+$/, "");
-    const link = document.getElementById("dlLink");
-    link.href = videoUrl;
-    link.setAttribute("download", title);
-    // cobalt no devuelve miniatura; ocultamos el thumb
-    document.getElementById("dlThumb").style.display = "none";
-    result.style.display = "flex";
-    setStatus("✅ Listo. Toca 'Guardar video'.", "ok");
+    document.getElementById("dlTitle").textContent =
+      _dlFile.replace(/\.[^.]+$/, "").replace(/_/g, " ").slice(0, 55);
+    document.getElementById("dlProg").style.display = "none";
+    res2.style.display = "flex";
+    dlStatus("✅ Video encontrado. Toca 'Guardar'.", "ok");
 
   } catch (e) {
-    setStatus(`❌ ${e.message}`, "error");
+    dlStatus("❌ " + e.message, "error");
   } finally {
     btn.disabled = false;
   }
 }
 
-function setStatus(msg, type) {
-  const el = document.getElementById("dlStatus");
-  el.textContent = msg;
-  el.className = `dl-status dl-status--${type}`;
+async function stiktlSave() {
+  if (!_dlUrl) return;
+  const saveBtn = document.getElementById("dlSaveBtn");
+  const prog    = document.getElementById("dlProg");
+  const bar     = document.getElementById("dlBar");
+  const pct     = document.getElementById("dlPct");
+  saveBtn.disabled = true;
+  prog.style.display = "flex";
+  dlStatus("⬇️ Descargando…", "info");
+
+  try {
+    const r = await fetch(_dlUrl);
+    if (!r.ok) throw new Error("" + r.status);
+
+    const total  = parseInt(r.headers.get("Content-Length") || "0");
+    const reader = r.body.getReader();
+    const chunks = [];
+    let got = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      got += value.length;
+      if (total > 0) {
+        const p = Math.round(got / total * 100);
+        bar.style.width = p + "%";
+        pct.textContent = p + "%";
+      }
+    }
+
+    const blobUrl = URL.createObjectURL(new Blob(chunks));
+    const a = Object.assign(document.createElement("a"), { href: blobUrl, download: _dlFile });
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
+    dlStatus("✅ ¡Guardado!", "ok");
+    prog.style.display = "none";
+
+  } catch {
+    // CORS fallback: open in new tab so user can long-press to save
+    window.open(_dlUrl, "_blank");
+    dlStatus("⚠️ Ábrelo y mantenlo presionado para guardar.", "warn");
+    prog.style.display = "none";
+  } finally {
+    saveBtn.disabled = false;
+  }
 }
 
-// Enter key triggers download
-document.addEventListener("DOMContentLoaded", () => {
-  const inp = document.getElementById("dlUrl");
-  if (inp) inp.addEventListener("keydown", e => { if (e.key === "Enter") stiktlDownload(); });
-});
+function dlStatus(msg, type) {
+  const el = document.getElementById("dlStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.className   = "dl-status dl-status--" + type;
+  el.style.display = msg ? "block" : "none";
+}
 
+/* ── Init ── */
 document.addEventListener("DOMContentLoaded", () => {
   spawnBlobs();
   setupReveal();
   setupHeaderScroll();
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
+  const inp = document.getElementById("dlUrl");
+  if (inp) inp.addEventListener("keydown", e => { if (e.key === "Enter") stiktlDownload(); });
 });

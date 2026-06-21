@@ -302,44 +302,41 @@ strong { color: var(--text); font-weight: 600; }
 }
 
 /* ===================== DESCARGADOR WEB ===================== */
-.downloader { text-align: center; padding: clamp(28px, 5vw, 48px); position: relative; }
-.downloader__title { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; margin: .4rem 0 .6rem; }
-.downloader__sub { font-size: .95rem; color: var(--text-dim); margin-bottom: 1.6rem; }
-.downloader__note { font-size: .75rem; color: var(--text-faint); margin-top: 1.2rem; }
+.dl-card { padding: clamp(24px,5vw,44px); max-width: 720px; margin: 0 auto; }
+.dl-card__sub { font-size:.95rem; color:var(--text-dim); margin-bottom:1.4rem; text-align:center; }
 
-.dl-box { max-width: 680px; margin: 0 auto; }
-.dl-input-row { display: flex; gap: 10px; }
-.dl-input-row input {
-  flex: 1; padding: 13px 16px; border-radius: 14px; border: 1px solid var(--glass-border);
-  background: var(--glass-bg); color: var(--text); font-family: "Outfit", sans-serif;
-  font-size: .95rem; outline: none; transition: border-color .2s;
+.dl-row { display:flex; gap:10px; }
+.dl-input-wrap { flex:1; position:relative; display:flex; align-items:center; }
+.dl-input-icon { position:absolute; left:14px; width:18px; height:18px; stroke:var(--text-faint); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; flex-shrink:0; }
+.dl-input-wrap input {
+  width:100%; padding:14px 14px 14px 42px; border-radius:16px;
+  border:1px solid var(--glass-border); background:var(--glass-bg-soft);
+  color:var(--text); font-family:"Outfit",system-ui,sans-serif; font-size:.95rem;
+  outline:none; transition:border-color .2s;
 }
-.dl-input-row input:focus { border-color: var(--cyan); }
-.dl-input-row input::placeholder { color: var(--text-faint); }
-.dl-input-row button {
-  display: flex; align-items: center; gap: 6px; padding: 13px 22px; border-radius: 14px;
-  background: var(--cyan); color: #06090F; border: none; cursor: pointer;
-  font-family: "Outfit", sans-serif; font-size: .95rem; font-weight: 700;
-  transition: transform .18s, opacity .18s;
-}
-.dl-input-row button:hover { transform: translateY(-2px); }
-.dl-input-row button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-.dl-input-row button svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.dl-input-wrap input:focus { border-color:var(--cyan); }
+.dl-input-wrap input::placeholder { color:var(--text-faint); }
 
-.dl-status { margin-top: .8rem; font-size: .85rem; min-height: 1.2em; }
-.dl-status--ok { color: #4ade80; }
-.dl-status--error { color: #f87171; }
-.dl-status--warn { color: var(--orange-soft); }
-.dl-status--info { color: var(--cyan-soft); }
+.dl-status { font-size:.85rem; margin-top:.9rem; display:none; }
+.dl-status--ok    { color:#4ade80; }
+.dl-status--error { color:#f87171; }
+.dl-status--warn  { color:var(--orange-soft); }
+.dl-status--info  { color:var(--cyan-soft); }
 
 .dl-result {
-  display: flex; align-items: center; gap: 16px; margin-top: 1rem;
-  padding: 14px 16px; border-radius: 14px;
-  background: var(--glass-bg); border: 1px solid var(--glass-border); text-align: left;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  margin-top:1.2rem; padding:16px 20px; border-radius:16px;
+  background:var(--glass-bg); border:1px solid var(--glass-border);
 }
-#dlThumb { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
-.dl-result__info { flex: 1; min-width: 0; }
-.dl-result__title { font-size: .85rem; color: var(--text-dim); margin-bottom: .6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dl-result__meta { flex:1; min-width:0; }
+.dl-result__title { font-size:.9rem; color:var(--text-dim); margin-bottom:.5rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dl-result__progress { display:flex; align-items:center; gap:10px; margin-top:.4rem; }
+.dl-progress-bar { flex:1; height:6px; border-radius:99px; background:var(--glass-border); overflow:hidden; }
+.dl-progress-fill { height:100%; width:0; background:var(--cyan); border-radius:99px; transition:width .2s; }
+#dlPct { font-size:.8rem; color:var(--cyan-soft); white-space:nowrap; }
+
+.dl-platforms { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:1.4rem; padding:0; list-style:none; }
+.dl-platforms li { font-size:.78rem; color:var(--text-faint); padding:4px 12px; border-radius:99px; background:var(--glass-bg-soft); border:1px solid var(--glass-border); }
 
 /* ===================== APK PICKER ===================== */
 .apk-picker {

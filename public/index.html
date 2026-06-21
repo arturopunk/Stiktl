@@ -216,34 +216,46 @@
 
   <!-- ===================== DESCARGADOR WEB ===================== -->
   <section class="section section--tight" id="descargar-video">
-    <div class="downloader glass reveal">
-      <span class="eyebrow">Descargador</span>
-      <h2 class="downloader__title">Descarga el video y crea tu sticker</h2>
-      <p class="downloader__sub">Pega el link de TikTok, Instagram, YouTube u otra red social y descarga el video directo.</p>
+    <header class="section__head reveal">
+      <span class="eyebrow">Bajar video</span>
+      <h2 class="section__title">Descarga sin marca de agua</h2>
+    </header>
 
-      <div class="dl-box">
-        <div class="dl-input-row">
-          <input id="dlUrl" type="url" placeholder="https://www.tiktok.com/…  ·  Instagram  ·  YouTube…"
+    <div class="dl-card glass reveal">
+      <p class="dl-card__sub">Pega el link de TikTok, Instagram, YouTube, Twitter/X, Reddit…</p>
+
+      <div class="dl-row">
+        <div class="dl-input-wrap">
+          <svg class="dl-input-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <input id="dlUrl" type="url"
+            placeholder="https://www.tiktok.com/…"
             autocomplete="off" autocorrect="off" spellcheck="false" />
-          <button id="dlBtn" onclick="stiktlDownload()">
-            <svg viewBox="0 0 24 24"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
-            Descargar
-          </button>
         </div>
-        <div id="dlStatus" class="dl-status" aria-live="polite"></div>
-        <div id="dlResult" class="dl-result" style="display:none">
-          <img id="dlThumb" src="" alt="" />
-          <div class="dl-result__info">
-            <p id="dlTitle" class="dl-result__title"></p>
-            <a id="dlLink" href="#" download class="btn btn--primary btn--sm" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
-              Guardar video
-            </a>
-          </div>
-        </div>
+        <button id="dlBtn" class="btn btn--primary btn--lg" onclick="stiktlDownload()">
+          <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
+          Bajar
+        </button>
       </div>
 
-      <p class="downloader__note">Sin cuenta · Sin marcas de agua · Solo para uso personal</p>
+      <div id="dlStatus" class="dl-status" aria-live="polite" style="display:none"></div>
+
+      <div id="dlResult" class="dl-result" style="display:none">
+        <div class="dl-result__meta">
+          <p id="dlTitle" class="dl-result__title"></p>
+          <div class="dl-result__progress" id="dlProgress" style="display:none">
+            <div class="dl-progress-bar"><div id="dlBar" class="dl-progress-fill"></div></div>
+            <span id="dlPct">0%</span>
+          </div>
+        </div>
+        <button id="dlSaveBtn" class="btn btn--primary btn--lg" onclick="stiktlSave()">
+          <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
+          Guardar video
+        </button>
+      </div>
+
+      <ul class="dl-platforms">
+        <li>TikTok</li><li>Instagram</li><li>YouTube</li><li>Twitter / X</li><li>Reddit</li>
+      </ul>
     </div>
   </section>
 
