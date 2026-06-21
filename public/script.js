@@ -53,6 +53,65 @@ function setupHeaderScroll() {
   onScroll();
 }
 
+/* ===================== DESCARGADOR ===================== */
+const API = "https://stiktl-api.railway.app"; // cambia a tu URL de Railway
+
+async function stiktlDownload() {
+  const input = document.getElementById("dlUrl");
+  const btn   = document.getElementById("dlBtn");
+  const status= document.getElementById("dlStatus");
+  const result= document.getElementById("dlResult");
+  const url   = input.value.trim();
+
+  if (!url || !url.startsWith("http")) {
+    setStatus("⚠️ Pega un link válido primero.", "warn"); return;
+  }
+
+  btn.disabled = true;
+  setStatus("⏳ Obteniendo video…", "info");
+  result.style.display = "none";
+
+  try {
+    const res = await fetch(`${API}/resolve`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Error ${res.status}`);
+    }
+
+    const data = await res.json();
+    document.getElementById("dlTitle").textContent = data.title || "Video";
+    const link = document.getElementById("dlLink");
+    link.href = data.url;
+    link.download = `${data.title || "stiktl-video"}.${data.ext || "mp4"}`;
+    const thumb = document.getElementById("dlThumb");
+    if (data.thumbnail) { thumb.src = data.thumbnail; thumb.style.display = "block"; }
+    else thumb.style.display = "none";
+    result.style.display = "flex";
+    setStatus("✅ Listo. Toca 'Guardar video'.", "ok");
+  } catch (e) {
+    setStatus(`❌ ${e.message}`, "error");
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function setStatus(msg, type) {
+  const el = document.getElementById("dlStatus");
+  el.textContent = msg;
+  el.className = `dl-status dl-status--${type}`;
+}
+
+// Enter key triggers download
+document.addEventListener("DOMContentLoaded", () => {
+  const inp = document.getElementById("dlUrl");
+  if (inp) inp.addEventListener("keydown", e => { if (e.key === "Enter") stiktlDownload(); });
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   spawnBlobs();
   setupReveal();

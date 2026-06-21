@@ -4,9 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Stiktl — Cualquier video → sticker animado</title>
-  <meta name="description" content="Convierte cualquier video en un sticker animado para WhatsApp. Pega un link o elige un video, quítale el fondo y exporta. Descarga el APK para Android." />
+  <meta name="description" content="Convierte videos de TikTok, Instagram o YouTube en stickers animados para WhatsApp. Quita el fondo, recorta y exporta al instante. APK gratis para Android." />
   <meta name="theme-color" content="#06090F" />
   <link rel="icon" type="image/png" href="stiktlicon.png" />
+  <link rel="canonical" href="https://stiktl.web.app/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="sticker animado WhatsApp, TikTok a sticker WhatsApp, Instagram a sticker WhatsApp, YouTube a sticker WhatsApp, convertir video sticker, quitar fondo video, app stickers Android, stiktl apk, stiker whatsapp, tiktok whatsapp sticker" />
+  <meta name="author" content="Stiktl" />
+  <link rel="alternate" hreflang="es" href="https://stiktl.web.app/" />
+  <link rel="alternate" hreflang="x-default" href="https://stiktl.web.app/" />
+
+  <!-- Open Graph / WhatsApp / redes sociales -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://stiktl.web.app/" />
+  <meta property="og:title" content="Stiktl — Cualquier video → sticker animado" />
+  <meta property="og:description" content="Convierte videos de TikTok, Instagram o YouTube en stickers animados para WhatsApp. Quita el fondo, recorta y exporta al instante. APK gratis para Android." />
+  <meta property="og:image" content="https://stiktl.web.app/stiktlicon.png" />
+  <meta property="og:locale" content="es_ES" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Stiktl — Cualquier video → sticker animado" />
+  <meta name="twitter:description" content="Convierte cualquier video en un sticker animado para WhatsApp. Descarga el APK para Android." />
+  <meta name="twitter:image" content="https://stiktl.web.app/stiktlicon.png" />
+
+  <!-- Schema.org: app de software -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Stiktl",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Android 7.0+",
+    "description": "Convierte videos de TikTok, Instagram, YouTube o cualquier video en stickers animados para WhatsApp. Quita el fondo, recorta y exporta en segundos.",
+    "url": "https://stiktl.web.app/",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Arturo" }
+  }
+  </script>
 
   <!-- Tipografía: una sola familia para reducir descargas -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,15 +60,16 @@
   <header class="header" id="top">
     <nav class="nav glass">
       <a class="brand" href="#top" aria-label="Stiktl inicio">
-        <span class="brand__mark"><img src="stiktlicon.png" alt="" width="36" height="36" /></span>
+        <span class="brand__mark"><img src="stiktlicon.png" alt="Stiktl" width="36" height="36" /></span>
         <span class="brand__name">Stiktl</span>
       </a>
       <ul class="nav__links">
         <li><a href="#funciones">Funciones</a></li>
         <li><a href="#como">Cómo va</a></li>
+        <li><a href="#descargar-video">Bajar video</a></li>
         <li><a href="#descargar">Descargar</a></li>
       </ul>
-      <a class="btn btn--primary btn--sm" href="/download">
+      <a class="btn btn--primary btn--sm" href="#descargar">
         <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
         APK
       </a>
@@ -54,18 +88,19 @@
       <div class="hero__copy reveal" data-delay="80">
         <span class="pill glass">
           <span class="pill__dot"></span>
-          Quita el fondo del video automáticamente
+          TikTok · Instagram · YouTube → WhatsApp
         </span>
         <h1 class="hero__title">
           Cualquier video se vuelve un
           <span class="grad">sticker animado</span>
         </h1>
         <p class="hero__subtitle">
-          Pega un link o elige un video, quítale el fondo y mándalo a WhatsApp.
-          Rápido, simple y sin marcas de agua.
+          Pega un link de <strong>TikTok</strong>, <strong>Instagram</strong>, <strong>YouTube</strong> o elige un video del teléfono,
+          quítale el fondo y mándalo a WhatsApp como sticker animado.
+          Rápido, sin cuenta y sin marcas de agua.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--primary btn--lg" href="/download">
+          <a class="btn btn--primary btn--lg" href="#descargar">
             <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
             Descargar APK
           </a>
@@ -80,6 +115,9 @@
           <li><span class="dot-sep"></span></li>
           <li>Solo <strong>Android</strong></li>
         </ul>
+        <p class="hero__platforms">
+          Funciona con <strong>TikTok</strong>, <strong>Instagram Reels</strong>, <strong>YouTube&nbsp;Shorts</strong>, <strong>Twitter&nbsp;/&nbsp;X</strong>, <strong>Reddit</strong> y videos locales.
+        </p>
       </div>
     </section>
 
@@ -109,7 +147,7 @@
             <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           </div>
           <h3>Desde un link</h3>
-          <p>Pega la URL de un video y la app lo descarga por ti.</p>
+          <p>Pega un link de TikTok, Instagram, YouTube, Twitter/X, Reddit o cualquier video y la app lo descarga por ti.</p>
         </article>
         <article class="feature glass reveal">
           <div class="feature__icon feature__icon--orange">
@@ -118,6 +156,23 @@
           <h3>Exporta a WhatsApp</h3>
           <p>Manda tu pack a WhatsApp en un toque, listo para usar.</p>
         </article>
+      </div>
+    </section>
+
+    <!-- ===================== PLATAFORMAS ===================== -->
+    <section class="section section--tight" id="plataformas">
+      <div class="platforms glass reveal">
+        <span class="eyebrow">Funciona con</span>
+        <h2 class="platforms__title">De cualquier red social a WhatsApp</h2>
+        <ul class="platforms__list">
+          <li><strong>TikTok</strong> → sticker animado para WhatsApp</li>
+          <li><strong>Instagram Reels</strong> → sticker animado para WhatsApp</li>
+          <li><strong>YouTube Shorts</strong> → sticker animado para WhatsApp</li>
+          <li><strong>Twitter / X</strong> → sticker animado para WhatsApp</li>
+          <li><strong>Reddit</strong> → sticker animado para WhatsApp</li>
+          <li><strong>Video del teléfono</strong> → sticker animado para WhatsApp</li>
+        </ul>
+        <p class="platforms__note">Pega el enlace, quítale el fondo con el gotero chroma y mándalo a WhatsApp en segundos. Sin cuenta, sin marcas de agua, completamente gratis.</p>
       </div>
     </section>
 
@@ -141,25 +196,70 @@
         <span class="eyebrow">Descarga</span>
         <h2 class="download__title">Descarga <span>Stiktl</span> para Android</h2>
         <p class="download__text">Instala el <strong>APK</strong> directo en tu teléfono. Sin tiendas, sin esperas.</p>
-        <div class="download__actions">
-          <a class="btn btn--primary btn--xl" href="/download">
+
+        <!-- Selector de arquitectura -->
+        <div class="apk-picker">
+          <a class="apk-btn apk-btn--primary" href="/download-64">
             <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
-            Descargar APK
+            <span class="apk-btn__label">APK 64-bit</span>
+            <span class="apk-btn__sub">arm64 · 2023+</span>
           </a>
+          <a class="apk-btn apk-btn--secondary" href="/download-32">
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
+            <span class="apk-btn__label">APK 32-bit</span>
+            <span class="apk-btn__sub">armeabi · Samsung J/A</span>
+          </a>
+        </div>
+        <p class="apk-hint">¿No sabes cuál? Descarga la <strong>64-bit</strong>. Si no instala, prueba la 32-bit.</p>
+
+        <div class="download__actions" style="margin-top:1.5rem;">
           <a class="btn btn--coffee btn--xl" href="https://www.paypal.com/paypalme/arturiousms" target="_blank" rel="noopener">
             ☕ Apoyar por PayPal
           </a>
         </div>
-        <p class="download__note">Android · versión 1.0 · da lo que quieras, ¡mil gracias!</p>
+        <p class="download__note">Android 7.0+ · versión 1.0.1 · da lo que quieras, ¡mil gracias!</p>
       </div>
     </section>
   </main>
+
+  <!-- ===================== DESCARGADOR WEB ===================== -->
+  <section class="section section--tight" id="descargar-video">
+    <div class="downloader glass reveal">
+      <span class="eyebrow">Descargador</span>
+      <h2 class="downloader__title">Descarga el video y crea tu sticker</h2>
+      <p class="downloader__sub">Pega el link de TikTok, Instagram, YouTube u otra red social y descarga el video directo.</p>
+
+      <div class="dl-box">
+        <div class="dl-input-row">
+          <input id="dlUrl" type="url" placeholder="https://www.tiktok.com/…  ·  Instagram  ·  YouTube…"
+            autocomplete="off" autocorrect="off" spellcheck="false" />
+          <button id="dlBtn" onclick="stiktlDownload()">
+            <svg viewBox="0 0 24 24"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
+            Descargar
+          </button>
+        </div>
+        <div id="dlStatus" class="dl-status" aria-live="polite"></div>
+        <div id="dlResult" class="dl-result" style="display:none">
+          <img id="dlThumb" src="" alt="" />
+          <div class="dl-result__info">
+            <p id="dlTitle" class="dl-result__title"></p>
+            <a id="dlLink" href="#" download class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>
+              Guardar video
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="downloader__note">Sin cuenta · Sin marcas de agua · Solo para uso personal</p>
+    </div>
+  </section>
 
   <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
     <div class="footer__inner glass">
       <div class="footer__brand">
-        <span class="brand__mark brand__mark--sm"><img src="stiktlicon.png" alt="" width="30" height="30" /></span>
+        <span class="brand__mark brand__mark--sm"><img src="stiktlicon.png" alt="Stiktl" width="30" height="30" /></span>
         <span class="brand__name">Stiktl</span>
       </div>
       <a class="footer__coffee" href="https://www.paypal.com/paypalme/arturiousms" target="_blank" rel="noopener">☕ Café</a>

@@ -11,21 +11,43 @@
     "redirects": [
       {
         "source": "/download",
-        "destination": "https://raw.githubusercontent.com/arturopunk/Stiktl/main/release/Stiktl.apk",
+        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-arm64.apk",
+        "type": 302
+      },
+      {
+        "source": "/download-64",
+        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-arm64.apk",
+        "type": 302
+      },
+      {
+        "source": "/download-32",
+        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-armeabi.apk",
         "type": 302
       },
       {
         "source": "/Stiktl.apk",
-        "destination": "https://raw.githubusercontent.com/arturopunk/Stiktl/main/release/Stiktl.apk",
+        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-arm64.apk",
         "type": 302
       }
     ],
     "headers": [
       {
+        "source": "**",
+        "headers": [
+          { "key": "X-Robots-Tag", "value": "index, follow" }
+        ]
+      },
+      {
         "source": "**/*.apk",
         "headers": [
           { "key": "Content-Type", "value": "application/vnd.android.package-archive" },
           { "key": "Content-Disposition", "value": "attachment; filename=\"Stiktl.apk\"" }
+        ]
+      },
+      {
+        "source": "**/*.xml",
+        "headers": [
+          { "key": "Content-Type", "value": "text/xml; charset=utf-8" }
         ]
       },
       {
