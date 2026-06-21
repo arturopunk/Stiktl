@@ -109,7 +109,7 @@ strong { color: var(--text); font-weight: 600; }
   cursor: pointer; border: 1px solid transparent; white-space: nowrap;
   transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s, border-color .2s;
 }
-.btn__icon { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn__icon { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 .btn--sm { font-size: 0.88rem; --pad-y: 0.5em; --pad-x: 1em; }
 .btn--lg { font-size: 1.02rem; --pad-y: 0.8em; --pad-x: 1.5em; }
 .btn--xl { font-size: 1.08rem; --pad-y: 0.9em; --pad-x: 1.7em; }

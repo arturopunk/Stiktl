@@ -92,14 +92,14 @@ async function stiktlDownload() {
       // cobalt.tools soporta estas plataformas con una UI limpia y es gratuito.
       const cobaltUrl = "https://cobalt.tools/?u=" + encodeURIComponent(url);
       window.open(cobaltUrl, "_blank", "noopener");
-      dlStatus("🔗 Abrimos cobalt.tools con tu link — haz clic en Descargar ahí.", "info");
+      dlStatus("↗️ Abrimos cobalt.tools en otra pestaña con tu link — solo da clic en el botón de descarga ahí.", "info");
       btn.disabled = false;
       return;
     }
 
     document.getElementById("dlTitle").textContent =
       _dlFile.replace(/\.[^.]+$/, "").replace(/_/g, " ").slice(0, 55);
-    document.getElementById("dlProg").style.display = "none";
+    document.getElementById("dlProgress").style.display = "none";
     res2.style.display = "flex";
     dlStatus("✅ Video listo. Toca 'Guardar video'.", "ok");
 
@@ -113,7 +113,7 @@ async function stiktlDownload() {
 async function stiktlSave() {
   if (!_dlUrl) return;
   const saveBtn = document.getElementById("dlSaveBtn");
-  const prog    = document.getElementById("dlProg");
+  const prog    = document.getElementById("dlProgress");
   const bar     = document.getElementById("dlBar");
   const pct     = document.getElementById("dlPct");
   saveBtn.disabled = true;
