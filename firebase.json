@@ -45,12 +45,6 @@
         ]
       },
       {
-        "source": "**/*.xml",
-        "headers": [
-          { "key": "Content-Type", "value": "text/xml; charset=utf-8" }
-        ]
-      },
-      {
         "source": "**/*.@(js|css|png)",
         "headers": [
           { "key": "Cache-Control", "value": "public, max-age=86400" }

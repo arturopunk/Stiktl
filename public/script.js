@@ -54,14 +54,11 @@ function setupHeaderScroll() {
 }
 
 /* ===================== DESCARGADOR ===================== */
-const API = "https://stiktl-api.railway.app"; // cambia a tu URL de Railway
-
 async function stiktlDownload() {
-  const input = document.getElementById("dlUrl");
-  const btn   = document.getElementById("dlBtn");
-  const status= document.getElementById("dlStatus");
-  const result= document.getElementById("dlResult");
-  const url   = input.value.trim();
+  const input  = document.getElementById("dlUrl");
+  const btn    = document.getElementById("dlBtn");
+  const result = document.getElementById("dlResult");
+  const url    = input.value.trim();
 
   if (!url || !url.startsWith("http")) {
     setStatus("⚠️ Pega un link válido primero.", "warn"); return;
@@ -72,27 +69,52 @@ async function stiktlDownload() {
   result.style.display = "none";
 
   try {
-    const res = await fetch(`${API}/resolve`, {
+    // cobalt.tools — API pública, gratis, sin backend propio.
+    // Soporta TikTok, Instagram, YouTube, Twitter/X, Reddit y más.
+    const res = await fetch("https://api.cobalt.tools/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url }),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        url,
+        videoQuality: "720",
+        filenameStyle: "pretty",
+      }),
     });
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `Error ${res.status}`);
+    if (!res.ok) throw new Error(`Error del servidor: ${res.status}`);
+    const data = await res.json();
+
+    // cobalt devuelve status "redirect" o "tunnel" con la URL directa,
+    // o "picker" con múltiples opciones (carruseles de Instagram, etc.)
+    let videoUrl = null, title = "video";
+
+    if (data.status === "redirect" || data.status === "tunnel") {
+      videoUrl = data.url;
+      title = data.filename || "stiktl-video";
+    } else if (data.status === "picker" && data.picker?.length) {
+      // Toma el primer elemento de video del carrusel
+      const vid = data.picker.find(p => p.type === "video") || data.picker[0];
+      videoUrl = vid.url;
+      title = data.filename || "stiktl-video";
+    } else if (data.status === "error") {
+      throw new Error(data.error?.code || "No se pudo obtener el video");
+    } else {
+      throw new Error("Respuesta inesperada del servidor");
     }
 
-    const data = await res.json();
-    document.getElementById("dlTitle").textContent = data.title || "Video";
+    // Muestra resultado
+    document.getElementById("dlTitle").textContent = title.replace(/\.[^.]+$/, "");
     const link = document.getElementById("dlLink");
-    link.href = data.url;
-    link.download = `${data.title || "stiktl-video"}.${data.ext || "mp4"}`;
-    const thumb = document.getElementById("dlThumb");
-    if (data.thumbnail) { thumb.src = data.thumbnail; thumb.style.display = "block"; }
-    else thumb.style.display = "none";
+    link.href = videoUrl;
+    link.setAttribute("download", title);
+    // cobalt no devuelve miniatura; ocultamos el thumb
+    document.getElementById("dlThumb").style.display = "none";
     result.style.display = "flex";
     setStatus("✅ Listo. Toca 'Guardar video'.", "ok");
+
   } catch (e) {
     setStatus(`❌ ${e.message}`, "error");
   } finally {
