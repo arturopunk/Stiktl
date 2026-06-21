@@ -53,6 +53,12 @@ function setupHeaderScroll() {
 /* ── Descargador de video ── */
 let _dlUrl = null, _dlFile = "video.mp4";
 
+function detectPlatform(url) {
+  const u = url.toLowerCase();
+  if (u.includes("tiktok.com") || u.includes("vm.tiktok") || u.includes("vt.tiktok")) return "tiktok";
+  return "other";
+}
+
 async function stiktlDownload() {
   const url  = (document.getElementById("dlUrl").value || "").trim();
   const btn  = document.getElementById("dlBtn");
@@ -66,32 +72,36 @@ async function stiktlDownload() {
   _dlUrl = null;
 
   try {
-    const r = await fetch("https://api.cobalt.tools/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ url, videoQuality: "720", filenameStyle: "pretty" }),
-    });
-    if (!r.ok) throw new Error("El servidor no respondió bien (" + r.status + ")");
-    const d = await r.json();
+    const platform = detectPlatform(url);
 
-    if (d.status === "error") throw new Error(d.error?.code || "No se pudo obtener el video");
+    if (platform === "tiktok") {
+      // tikwm.com — API pública gratuita para TikTok, CORS abierto.
+      const r = await fetch("https://www.tikwm.com/api/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "url=" + encodeURIComponent(url) + "&hd=1",
+      });
+      const d = await r.json();
+      if (d.code !== 0 || !d.data) throw new Error(d.msg || "No se pudo obtener el video");
+      // Preferir versión sin marca de agua (play_addr), fallback a wmplay
+      _dlUrl  = d.data.play || d.data.wmplay;
+      _dlFile = (d.data.title || "tiktok-video").slice(0, 60).replace(/[\\/:*?"<>|]/g, "") + ".mp4";
 
-    if (d.status === "redirect" || d.status === "tunnel") {
-      _dlUrl  = d.url;
-      _dlFile = d.filename || "stiktl-video.mp4";
-    } else if (d.status === "picker" && d.picker?.length) {
-      const v = d.picker.find(p => p.type === "video") || d.picker[0];
-      _dlUrl  = v.url;
-      _dlFile = d.filename || "stiktl-video.mp4";
     } else {
-      throw new Error("Respuesta inesperada del servidor");
+      // Para YouTube, Instagram y otros: abrir cobalt.tools en nueva pestaña con el link pre-llenado.
+      // cobalt.tools soporta estas plataformas con una UI limpia y es gratuito.
+      const cobaltUrl = "https://cobalt.tools/?u=" + encodeURIComponent(url);
+      window.open(cobaltUrl, "_blank", "noopener");
+      dlStatus("🔗 Abrimos cobalt.tools con tu link — haz clic en Descargar ahí.", "info");
+      btn.disabled = false;
+      return;
     }
 
     document.getElementById("dlTitle").textContent =
       _dlFile.replace(/\.[^.]+$/, "").replace(/_/g, " ").slice(0, 55);
     document.getElementById("dlProg").style.display = "none";
     res2.style.display = "flex";
-    dlStatus("✅ Video encontrado. Toca 'Guardar'.", "ok");
+    dlStatus("✅ Video listo. Toca 'Guardar video'.", "ok");
 
   } catch (e) {
     dlStatus("❌ " + e.message, "error");
