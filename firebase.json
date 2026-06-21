@@ -11,22 +11,12 @@
     "redirects": [
       {
         "source": "/download",
-        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-arm64.apk",
-        "type": 302
-      },
-      {
-        "source": "/download-64",
-        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-arm64.apk",
-        "type": 302
-      },
-      {
-        "source": "/download-32",
-        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-armeabi.apk",
+        "destination": "https://raw.githubusercontent.com/arturopunk/Stiktl/main/release/Stiktl-arm64.apk",
         "type": 302
       },
       {
         "source": "/Stiktl.apk",
-        "destination": "https://raw.githubusercontent.com/arturoworkms/Sticktl/main/release/Stiktl-arm64.apk",
+        "destination": "https://raw.githubusercontent.com/arturopunk/Stiktl/main/release/Stiktl-arm64.apk",
         "type": 302
       }
     ],
