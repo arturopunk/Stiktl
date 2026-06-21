@@ -79,7 +79,7 @@ strong { color: var(--text); font-weight: 600; }
   filter: blur(50px);
   opacity: 0.34;
   animation: float-blob var(--dur, 24s) var(--ease) infinite alternate;
-  will-change: transform;
+  /* will-change: transform removido — causa blobs negros en Chrome/GPU compositing */
 }
 @keyframes float-blob {
   0%   { transform: translate(0, 0) scale(1); }
@@ -182,11 +182,9 @@ strong { color: var(--text); font-weight: 600; }
 .hero__icon img {
   position: relative; z-index: 1;
   width: min(420px, 70vw); aspect-ratio: 1;
-  /* El PNG trae su borde ya suavizado (alfa feathered). Solo una
-     sombra suave que sigue la silueta real — sin contorno duro. */
-  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.35));
   animation: icon-float 7s var(--ease) infinite alternate;
-  will-change: transform;
+  /* will-change: transform removido — causa artefactos negros con drop-shadow en GPU */
 }
 .hero__icon-glow {
   position: absolute; z-index: 0; width: 78%; aspect-ratio: 1; border-radius: 50%;
